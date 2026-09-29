@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <meta name="description" content="A hands-on strategy sandbox. Explore synthetic markets, compare signals, and see what trading costs change.">
+  <title>Signal Lab · Strategy playground</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./src/styles.css">
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <svg class="icon-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-lab" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4 19a1.4 1.4 0 0 0 1.2 2h13.6a1.4 1.4 0 0 0 1.2-2L14 9V3M7 15h10M10 18h.01"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5v15M12 5C8 2 3 4 3 4v15s5-2 9 1c4-3 9-1 9-1V4s-5-2-9 1Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M6.2 7a7 7 0 0 1 11.6-1L20 9M4 15l2.2 3A7 7 0 0 0 18 17"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  </svg>
+  <a class="skip-link" href="#lab">Skip to workspace</a>
+  <aside class="rail" aria-label="Main navigation">
+    <a class="brand-mark" href="#lab" aria-label="Signal Lab home"><span></span><span></span><span></span></a>
+    <nav>
+      <a class="rail-link active" href="#lab" aria-label="Strategy lab" title="Strategy lab"><svg><use href="#i-lab"/></svg></a>
+      <a class="rail-link" href="#trades" aria-label="Trade journal" title="Trade journal"><svg><use href="#i-list"/></svg></a>
+      <button class="rail-link" type="button" data-method aria-label="Methodology" title="Methodology"><svg><use href="#i-book"/></svg></button>
+    </nav>
+    <div class="rail-bottom" title="Runs in your browser"><span class="status-dot"></span></div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <a href="#lab" class="wordmark">signal<span>lab</span><sup>01</sup></a>
+      <span class="topbar-divider"></span><span class="topbar-label">Strategy playground</span>
+      <div class="topbar-right"><span class="local-label"><span class="status-dot"></span> LOCAL SESSION</span><button class="text-button" data-method type="button">How it works <span aria-hidden="true">↗</span></button></div>
+    </header>
+    <main id="lab">
+      <section class="intro" aria-labelledby="page-title">
+        <div><div class="eyebrow">A LITTLE CURIOSITY. A LOT OF SIGNAL.</div><h1 id="page-title">Find your edge<span>.</span></h1><p>Build a hypothesis. Run the numbers. See what holds up.</p></div>
+        <button class="button secondary" id="new-scenario" type="button"><svg><use href="#i-refresh"/></svg>New scenario</button>
+      </section>
+      <section class="market-grid" id="markets" aria-label="Choose a synthetic market"></section>
+      <div class="workspace-grid">
+        <div class="results-column">
+          <section class="metrics" aria-label="Backtest results" aria-live="polite">
+            <div class="metric"><span class="metric-label">NET RETURN <span class="mini-dot"></span></span><strong id="net-pnl">—</strong><span id="net-return" class="metric-detail">After trading costs</span></div>
+            <div class="metric"><span class="metric-label">WIN RATE</span><strong id="win-rate">—</strong><span id="win-detail" class="metric-detail">Closed trades</span></div>
+            <div class="metric"><span class="metric-label">MAX DRAWDOWN</span><strong id="drawdown">—</strong><span class="metric-detail">Measured at each bar close</span></div>
+            <div class="metric"><span class="metric-label">CLOSED TRADES</span><strong id="trade-count">—</strong><span id="fees" class="metric-detail">Including final liquidation</span></div>
+          </section>
+          <section class="panel chart-panel" aria-labelledby="chart-title">
+            <div class="panel-heading"><div><h2 id="chart-title">Strategy performance</h2><div class="legend"><span><i class="legend-line strategy-line"></i>Strategy</span><span><i class="legend-line benchmark-line"></i>Buy &amp; hold</span></div></div><div class="segmented" id="periods" aria-label="Backtest window"><button type="button" data-days="7" aria-pressed="false">7D</button><button type="button" data-days="14" aria-pressed="false">14D</button><button type="button" data-days="30" aria-pressed="true">30D</button></div></div>
+            <div class="chart-value"><span id="equity-value">$25,000.00</span><span class="tiny-label">PORTFOLIO EQUITY</span></div>
+            <div class="canvas-wrap"><canvas id="equity-chart" role="img" aria-label="Strategy and buy-and-hold equity over time. Exact results appear above; individual trades appear in the journal."></canvas><div id="chart-tooltip" class="chart-tooltip" hidden></div></div>
+            <div class="chart-meta"><span class="data-badge"><span></span> SYNTHETIC DATA</span><span id="chart-range">720 hourly bars · UTC</span><span id="exposure" class="exposure">—</span></div>
+            <div class="replay-controls"><button id="replay" class="icon-button" type="button" title="Replay equity curve" aria-label="Replay equity curve"><svg><use href="#i-play"/></svg></button><span class="replay-label">Replay</span><input id="timeline" aria-label="Equity replay position" type="range" min="2" max="720" value="720"><span id="replay-step" class="mono">720 / 720</span></div>
+          </section>
+          <div class="insight"><div class="insight-icon">↗</div><p id="insight-text">Run a scenario to explore a strategy.</p><span class="tiny-label">LAB NOTE</span></div>
+        </div>
+        <aside class="panel config-panel" aria-labelledby="config-title">
+          <div class="config-heading"><div class="eyebrow">YOUR EXPERIMENT</div><h2 id="config-title">Strategy setup</h2></div>
+          <div class="field-label">01 <span>Choose your approach</span></div>
+          <div class="strategy-options" id="strategies"></div>
+          <p id="strategy-description" class="strategy-description"></p>
+          <div class="config-divider"></div>
+          <div class="field-label">02 <span>Set the conditions</span></div>
+          <label class="slider-label" for="position-size">Position size <output id="position-output">$10,000</output></label>
+          <input id="position-size" type="range" min="1000" max="20000" step="1000" value="10000">
+          <div class="range-labels"><span>$1,000</span><span>$20,000</span></div>
+          <div class="cost-grid"><label>Fee / side <span class="number-field"><input id="fee" type="number" min="0" max="50" step="1" value="4"><span>bps</span></span></label><label>Slippage / side <span class="number-field"><input id="slippage" type="number" min="0" max="50" step="1" value="2"><span>bps</span></span></label></div>
+          <div class="capital-row"><span>Starting capital</span><strong id="starting-capital">$25,000</strong></div>
+          <button class="button primary" id="run" type="button">Run backtest <svg><use href="#i-arrow"/></svg></button>
+          <p class="config-footnote" id="run-status" role="status">Next-bar execution. Costs included.</p>
+        </aside>
+      </div>
+      <section class="panel journal" id="trades" aria-labelledby="journal-title">
+        <div class="panel-heading"><div class="journal-title"><h2 id="journal-title">Trade journal</h2><span class="count-badge" id="journal-count">0</span><span class="journal-subtitle">Every entry. Every exit.</span></div><button class="text-button" id="export" type="button"><svg><use href="#i-download"/></svg>Export CSV</button></div>
+        <div class="table-scroll"><table><thead><tr><th scope="col">TRADE</th><th scope="col">SIDE</th><th scope="col">ENTRY · UTC</th><th scope="col">ENTRY PRICE</th><th scope="col">EXIT PRICE</th><th scope="col">NET P&amp;L</th><th scope="col">EXIT REASON</th></tr></thead><tbody id="trade-rows"></tbody></table></div>
+        <div class="journal-footer"><span id="trade-summary"></span><div><button id="show-trades" class="text-button" type="button">Show all trades <svg><use href="#i-chevron"/></svg></button></div></div>
+      </section>
+      <footer class="footer"><span><b>signal lab</b> / Built for curious minds.</span><span>Simulated markets · No live execution <span class="footer-sep">/</span> <button id="reset" type="button">Reset workspace</button></span></footer>
+    </main>
+  </div>
+  <dialog id="method-dialog" aria-labelledby="method-title"><div class="dialog-heading"><span class="eyebrow">UNDER THE HOOD</span><button class="icon-button" id="close-dialog" type="button" aria-label="Close methodology"><svg><use href="#i-close"/></svg></button></div><h2 id="method-title">The numbers, explained.</h2><p>Signal Lab is a coding demo with generated market data. Its returns describe a synthetic scenario, not real trading performance.</p><ol><li><strong>Reproducible markets.</strong> A seeded generator creates 720 hourly bars. A new scenario changes the seed for every market.</li><li><strong>Causal execution.</strong> Strategies read completed bars. Signals execute at the next bar’s open, with adverse slippage.</li><li><strong>Transparent accounting.</strong> One long or short position at a time. Notional is capped at your setting and available equity. Fees apply to both sides.</li><li><strong>Fair comparison.</strong> Buy &amp; hold uses the same capital, initial position cap, costs, and next-open execution convention. It enters on the second bar; strategies wait for their signals. Both liquidate at the final close.</li><li><strong>Defined limits.</strong> No funding, borrow costs, liquidity, liquidation, or intrabar drawdown model. Shorting is simplified. Replay reveals the completed run; it does not change its totals.</li></ol><p class="dialog-note">1 basis point (bp) = 0.01%. Settings are saved only in this browser. See the repository README for the accounting formulas.</p><button id="download-run" class="button secondary" type="button"><svg><use href="#i-download"/></svg>Download reproducible run</button></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <noscript><p class="noscript">Enable JavaScript to run the strategy playground.</p></noscript>
+</body>
+</html>

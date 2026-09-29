@@ -1,0 +1,16 @@
+{
+  "name": "signal-lab",
+  "version": "1.0.0",
+  "description": "A zero-dependency strategy playground with deterministic markets and transparent backtests.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "keywords": ["backtesting", "javascript", "trading", "simulation", "canvas", "zero-dependencies"]
+}
